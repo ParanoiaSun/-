@@ -6,3 +6,9 @@ var cactiObj = function () {
 cactiObj.prototype.init = function (){
 
 }
+
+cactiObj.prototype.running = function(){
+	ctx.save();
+
+	ctx.restore();
+}

@@ -6,3 +6,9 @@ var monsterObj = function () {
 monsterObj.prototype.init = function (){
 
 }
+
+monsterObj.prototype.running = function(){
+	ctx.save();
+
+	ctx.restore();
+}

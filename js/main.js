@@ -4,6 +4,9 @@ var ctx;
 var canWidth;
 var canHeight;
 
+var lastTime;
+var deltaTime;
+
 var cacti;
 var cloud;
 var dinosaur;
@@ -34,6 +37,7 @@ function init(){
 	canWidth = can.width;
 
 	dinosaur.init();
+	cloud.init();
 }
 
 function gameloop(){
@@ -52,5 +56,10 @@ function gameloop(){
 	//console.log(deltaTime);这里暂停将鼠标滚轮往上就ok哦
 	//利用时间差来调整运动速度
 	ctx.clearRect(0, 0, canWidth, canHeight);
-	dinosaur.draw();
+	dinosaur.running();
+	cloud.running();
+}
+
+function gameover(){
+	spd = 0;
 }
