@@ -14,7 +14,7 @@ cloudObj.prototype.init = function (){
 	this.pic.src = "./src/cloud.png";
 	this.scale = 0.5;
 	this.isAlive = true;
-	this.spd = Math.random() * 0.017 + 0.003;
+	this.spd = Math.random() * 0.02 + 0.01;
 }
 
 cloudObj.prototype.running = function(){

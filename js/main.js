@@ -38,6 +38,9 @@ function init(){
 
 	dinosaur.init();
 	cloud.init();
+	monster.init();
+	cacti.init();
+	ground.init();
 }
 
 function gameloop(){
@@ -56,8 +59,9 @@ function gameloop(){
 	//console.log(deltaTime);这里暂停将鼠标滚轮往上就ok哦
 	//利用时间差来调整运动速度
 	ctx.clearRect(0, 0, canWidth, canHeight);
-	dinosaur.running();
 	cloud.running();
+	monster.running();
+	dinosaur.running();
 }
 
 function gameover(){

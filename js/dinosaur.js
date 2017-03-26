@@ -18,7 +18,7 @@ dinosaurObj.prototype.init = function (){
 	this.y = canHeight * 0.7;
 	this.state = 0;
 	this.count = 0;
-	this.dinosaurBody.src = "./src/body.png";
+	this.dinosaurBody.src = "./src/dinosaurBody.png";
 	// dinosaurEye[0]表示小恐龙正常的眼睛 dinosaurEye[1]表示小恐龙受伤时的眼睛
 	for(var i = 0; i < 2; i++){
 		this.dinosaurEye[i] = new Image();
@@ -55,7 +55,6 @@ dinosaurObj.prototype.running = function () {
 	ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
 	ctx.drawImage(this.dinosaurEye[0], this.x + 40 * this.scale, this.y - 125 * this.scale, this.dinosaurEye[0].width * this.scale, this.dinosaurEye[0].height * this.scale);
 	ctx.drawImage(this.dinosaurLeg[count], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[count].width * this.scale, this.dinosaurLeg[count].height * this.scale);
-	ctx.restore();
 	ctx.restore();
 }
 
