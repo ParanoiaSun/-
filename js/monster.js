@@ -5,10 +5,11 @@ var monsterObj = function () {
 	this.monsterTimer;
 	this.monsterCount;
 	this.scale;
+	this.isAlive;
 }
 
 monsterObj.prototype.init = function (){
-	this.x = canWidth * 0.7;
+	this.x = canWidth;
 	this.y = canHeight * 0.4;
 	for(var i = 0; i < 2; i++){
 		this.monsterImage[i] = new Image();
@@ -16,11 +17,11 @@ monsterObj.prototype.init = function (){
 	}
 	this.monsterTimer = 0;
 	this.monsterCount = 0;
-	this.scale = 0.5;
+	this.scale = 1;
+	this.Alive = true;
 }
 
 monsterObj.prototype.running = function(){
-	ctx.save();
 	this.monsterTimer += deltaTime;
 	if(this.monsterTimer > 150){
 		this.monsterCount = (this.monsterCount + 1) % 2;
@@ -28,6 +29,13 @@ monsterObj.prototype.running = function(){
 	}
 
 	var count = this.monsterCount;
-	ctx.drawImage(this.monsterImage[count], this.x, this.y);
-	ctx.restore();
+	if(this.isAlive){
+		if(this.x + this.cactiImage.width > 0)
+			this.x -= spd * 5 * deltaTime;
+		else{
+			this.isAlive = false;
+			this.x = canWidth;
+		}
+		ctx.drawImage(this.monsterImage[count], this.x, this.y, this.monsterImage[count] * this.scale, this.monsterImage[count] * this.scale);
+	}
 }

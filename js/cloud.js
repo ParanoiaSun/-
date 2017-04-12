@@ -17,13 +17,12 @@ cloudObj.prototype.init = function (){
 	this.spd = Math.random() * 0.02 + 0.01;
 }
 
-cloudObj.prototype.running = function(){
+cloudObj.prototype.add = function(){
 	if(this.isAlive){
 		if(this.x + this.pic.width > 0)
 			this.x -= this.spd * 5 * deltaTime;
-		else{
+		else
 			this.isAlive = false;
-		}
 		ctx.drawImage(this.pic, this.x, this.y, this.pic.width * this.scale, this.pic.height * this.scale);
 	}
 }

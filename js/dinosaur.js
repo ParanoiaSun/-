@@ -11,6 +11,7 @@ var dinosaurObj = function () {
 	this.scale;
 	this.dinosaurTimer;
 	this.dinosaurCount;
+	this.state;
 }
 
 dinosaurObj.prototype.init = function (){
@@ -34,34 +35,62 @@ dinosaurObj.prototype.init = function (){
 	this.height = this.dinosaurBody.height * this.scale;
 	this.dinosaurTimer = 0;
 	this.dinosaurCount = 0;
+	// 0 表示刚开始的静止状态 1 表示运动状态 2 表示跳跃上升状态 3 表示跳跃下降状态 4 表示死亡状态
+	this.state = 0;
 }
 
 dinosaurObj.prototype.draw = function () {
-	ctx.save();
+	if(this.state === 0){
 
-	ctx.restore();
+	}else if(this.state === 1){
+		this.dinosaurTimer += deltaTime;
+		if(this.dinosaurTimer > 100){
+			this.dinosaurCount = (this.dinosaurCount + 1) % 2;
+			this.dinosaurTimer %= 100;
+		}
+
+		var count = this.dinosaurCount + 1;
+		ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
+		ctx.drawImage(this.dinosaurEye[0], this.x + 40 * this.scale, this.y - 130 * this.scale, this.dinosaurEye[0].width * this.scale, this.dinosaurEye[0].height * this.scale);
+		ctx.drawImage(this.dinosaurLeg[count], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[count].width * this.scale, this.dinosaurLeg[count].height * this.scale);
+	}else if(this.state === 2){
+		this.dinosaurTimer += deltaTime;
+		if(this.dinosaurTimer > 20){
+			this.y -= 5;
+			this.dinosaurTimer %= 20;
+		}
+
+		ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
+		ctx.drawImage(this.dinosaurEye[0], this.x + 40 * this.scale, this.y - 130 * this.scale, this.dinosaurEye[0].width * this.scale, this.dinosaurEye[0].height * this.scale);
+		ctx.drawImage(this.dinosaurLeg[0], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[0].width * this.scale, this.dinosaurLeg[0].height * this.scale);
+
+        if(this.y <= canHeight * 0.2){
+            this.state = 3;
+        }
+	}else if(this.state === 3){
+        this.dinosaurTimer += deltaTime;
+        if(this.dinosaurTimer > 20){
+            this.y += 5;
+            this.dinosaurTimer %= 20;
+        }
+
+        ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
+        ctx.drawImage(this.dinosaurEye[0], this.x + 40 * this.scale, this.y - 130 * this.scale, this.dinosaurEye[0].width * this.scale, this.dinosaurEye[0].height * this.scale);
+        ctx.drawImage(this.dinosaurLeg[0], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[0].width * this.scale, this.dinosaurLeg[0].height * this.scale);
+
+        if(this.y >= canHeight * 0.7){
+            this.state = 1;
+        }
+	}else if(this.state === 4){
+	}
 }
 
 dinosaurObj.prototype.running = function () {
-	ctx.save();
-
-	this.dinosaurTimer += deltaTime;
-	if(this.dinosaurTimer > 100){
-		this.dinosaurCount = (this.dinosaurCount + 1) % 2;
-		this.dinosaurTimer %= 100;
-	}
-
-	var count = this.dinosaurCount + 1;
-	ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
-	ctx.drawImage(this.dinosaurEye[0], this.x + 40 * this.scale, this.y - 125 * this.scale, this.dinosaurEye[0].width * this.scale, this.dinosaurEye[0].height * this.scale);
-	ctx.drawImage(this.dinosaurLeg[count], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[count].width * this.scale, this.dinosaurLeg[count].height * this.scale);
-	ctx.restore();
+	this.state = 1;
 }
 
 dinosaurObj.prototype.jump = function () {
-	ctx.save();
-
-	ctx.restore();
+	this.state = 2; 
 }
 
 dinosaurObj.prototype.die = function () {
