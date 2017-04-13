@@ -9,3 +9,9 @@ function lerpDistance(aim, cur, ratio) {
 	var delta = cur - aim; //两者之间的距离
 	return aim + delta * ratio;
 }
+
+Array.prototype.remove = function(dx) 
+{ 
+  if(isNaN(dx)||dx>this.length){return false;} 
+  this.splice(dx,1); 
+} 

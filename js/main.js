@@ -4,12 +4,14 @@ var canWidth;  var canHeight;
 
 var lastTime;  var deltaTime;
 
-var cactus;  var cloud;  var dinosaur;  var ground;  var monster;
-var cacti = []; var clouds = []; var monsters = [];
+var cacti;  var dinosaur;  var ground;  var monster;
+var clouds; var monsters = [];
 
 var spd;
 
-var cloudTimer = 0;  var cloudCount = 0; var randomCloudTime = Math.random() * 1000 + 500;
+var cloudTimer = 0;  var cloudCount = 0; var randomCloudTime = Math.random() * 500 + 3000;
+var cactiTimer = 0;  var cactiCount = 0; var randomCactiTime = Math.random() * 2000 + 3000;
+
 
 document.body.onload = game;
 
@@ -23,45 +25,33 @@ function init(){
 	can = document.getElementById("canvas");
 	ctx = can.getContext('2d');
 
-    // can.addEventListener("onkeydown", doKeyDown, true);
-    // can.addEventListener('mousemove', onMouseMove, false);
-	document.onkeydown=function(event){
-        var e = event || window.event || arguments.callee.caller.arguments[0];
-        if(e && e.keyCode==32){ // 按 Esc
-            dinosaur.jump();
-        }
-	}
 	canHeight = can.height;
 	canWidth = can.width;
 
-	cactus = new cactiObj();
-	cloud = new cloudObj();
+	cacti = new Array();
 	dinosaur = new dinosaurObj();
 	ground = new groundObj();
 	monster = new monsterObj();
-
+	clouds = new Array();
 	dinosaur.init();
     dinosaur.running();
 
-	cloud.init();
 	monster.init();
-	cactus.init(0);
 	ground.init();
 
-	for(var i = 0; i < 3; i ++){
-		cacti[i] = new cactiObj();
-		cacti[i].init(0);
-	}
 	for(var i = 0; i < 2; i ++){
 		monsters[i] = new monsterObj();
 		monsters[i].init();
 	}
-	for(var i = 0; i < 10; i ++){
-		cloud[i] = new cloudObj();
-		cloud[i].init();
-	}
 
 	spd = 0.06;
+
+	document.onkeydown=function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if(e && e.keyCode === 32 && dinosaur.state === 1){ // 按 Esc
+            dinosaur.jump();
+        }
+	}
 
 }
 
@@ -82,20 +72,56 @@ function gameloop(){
 	// 利用时间差来调整运动速度
 	ctx.clearRect(0, 0, canWidth, canHeight);
 	ground.draw();
-	cloud.add();
+	cloudCheck();
 	monster.running();
 	dinosaur.draw();
-	cacti[0].add();
+	cactiCheck();
 }
 
-function doKeyDown(e) {
-    var keyID = e.keyCode ? e.keyCode : e.which;
-    console.log('a');
-    if (keyID === 65 || keyID === 32) { // up arrow and W
-    	if(dinosaur.state === 1)
-        	dinosaur.jump();
-        // e.preventDefault();
-    }
+function cloudCheck(){
+	//随机生成云朵
+	cloudTimer += deltaTime;
+	if(cloudTimer > randomCloudTime){
+		var newCloud = new cloudObj();
+		newCloud.init();
+		clouds.push(newCloud);
+		cloudTimer = 0;
+		randomCloudTime = Math.random() * 500 + 3000;
+	}
+
+	//将出画布的云朵去掉
+	for(var i = 0; i < clouds.length; i++){
+		if(!clouds[i].alive)
+			clouds.remove(i);
+	}
+
+	//绘制所有存在的云朵
+	for(var i = 0; i < clouds.length; i++){
+		clouds[i].draw();
+	}
+}
+
+function cactiCheck(){
+	//随机生成云朵
+	cactiTimer += deltaTime;
+	if(cactiTimer > randomCactiTime){
+		var newCacti = new cactiObj();
+		newCacti.init(0);
+		cacti.push(newCacti);
+		cactiTimer = 0;
+		randomCactiTime = Math.random() * 2000 + 3000;
+	}
+
+	//将出画布的云朵去掉
+	for(var i = 0; i < cacti.length; i++){
+		if(!cacti[i].alive)
+			cacti.remove(i);
+	}
+
+	//绘制所有存在的云朵
+	for(var i = 0; i < cacti.length; i++){
+		cacti[i].draw();
+	}
 }
 
 function gameover(){
@@ -105,3 +131,7 @@ function gameover(){
 function onMouseMove(e){
     console.log('a');
 }
+
+
+
+
