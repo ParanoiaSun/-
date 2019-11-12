@@ -18,14 +18,14 @@ cloudObj.prototype.init = function (){
 
 cloudObj.prototype.draw = function(){
 	if(this.alive){
-		if(this.x + this.pic.width > 0)
+		if(this.x + this.pic.width > 0 && spd > 0)
 			this.x -= this.spd * 5 * deltaTime;
-		else
+		else if(spd != 0)
 			this.alive = false;
 		ctx.drawImage(this.pic, this.x, this.y, this.pic.width * this.scale, this.pic.height * this.scale);
 	}
 
-	if(this.x - this.pic.width < 0){
+	if(this.x + this.pic.width < 0){
 		this.alive = false;
 	}
 }

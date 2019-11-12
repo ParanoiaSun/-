@@ -4,21 +4,17 @@ var dinosaurObj = function () {
 	this.width;
 	this.height;
 	this.state;
-	this.count;
 	this.dinosaurBody = new Image();
 	this.dinosaurEye = [];
 	this.dinosaurLeg = [];
 	this.scale;
 	this.dinosaurTimer;
 	this.dinosaurCount;
-	this.state;
 }
 
 dinosaurObj.prototype.init = function (){
-	this.x = canWidth * 0.5;
+	this.x = canWidth * 0.2;
 	this.y = canHeight * 0.7;
-	this.state = 0;
-	this.count = 0;
 	this.dinosaurBody.src = "./src/dinosaurBody.png";
 	// dinosaurEye[0]表示小恐龙正常的眼睛 dinosaurEye[1]表示小恐龙受伤时的眼睛
 	for(var i = 0; i < 2; i++){
@@ -82,6 +78,9 @@ dinosaurObj.prototype.draw = function () {
             this.state = 1;
         }
 	}else if(this.state === 4){
+		ctx.drawImage(this.dinosaurBody, this.x - this.dinosaurBody.width * this.scale * 0.5, this.y - this.dinosaurBody.height * this.scale * 0.5, this.dinosaurBody.width * this.scale, this.dinosaurBody.height * this.scale);
+    	ctx.drawImage(this.dinosaurEye[1], this.x + 40 * this.scale, this.y - 130 * this.scale, this.dinosaurEye[1].width * this.scale, this.dinosaurEye[1].height * this.scale);
+    	ctx.drawImage(this.dinosaurLeg[0], this.x - 110 * this.scale, this.y + 167 * this.scale, this.dinosaurLeg[0].width * this.scale, this.dinosaurLeg[0].height * this.scale);
 	}
 }
 
@@ -94,9 +93,8 @@ dinosaurObj.prototype.jump = function () {
 }
 
 dinosaurObj.prototype.die = function () {
-	ctx.save();
-
-	ctx.restore();
+	this.state = 4; 
+	gameover();
 }
 
 

@@ -10,7 +10,7 @@ var clouds; var monsters = [];
 var spd;
 
 var cloudTimer = 0;  var cloudCount = 0; var randomCloudTime = Math.random() * 500 + 3000;
-var cactiTimer = 0;  var cactiCount = 0; var randomCactiTime = Math.random() * 2000 + 3000;
+var cactiTimer = 0;  var cactiCount = 0; var randomCactiTime = Math.random() * 1000 + 2000;
 
 
 document.body.onload = game;
@@ -44,7 +44,7 @@ function init(){
 		monsters[i].init();
 	}
 
-	spd = 0.06;
+	spd = 0.08;
 
 	document.onkeydown=function(event){
         var e = event || window.event || arguments.callee.caller.arguments[0];
@@ -74,54 +74,9 @@ function gameloop(){
 	ground.draw();
 	cloudCheck();
 	monster.running();
-	dinosaur.draw();
 	cactiCheck();
-}
-
-function cloudCheck(){
-	//随机生成云朵
-	cloudTimer += deltaTime;
-	if(cloudTimer > randomCloudTime){
-		var newCloud = new cloudObj();
-		newCloud.init();
-		clouds.push(newCloud);
-		cloudTimer = 0;
-		randomCloudTime = Math.random() * 500 + 3000;
-	}
-
-	//将出画布的云朵去掉
-	for(var i = 0; i < clouds.length; i++){
-		if(!clouds[i].alive)
-			clouds.remove(i);
-	}
-
-	//绘制所有存在的云朵
-	for(var i = 0; i < clouds.length; i++){
-		clouds[i].draw();
-	}
-}
-
-function cactiCheck(){
-	//随机生成云朵
-	cactiTimer += deltaTime;
-	if(cactiTimer > randomCactiTime){
-		var newCacti = new cactiObj();
-		newCacti.init(0);
-		cacti.push(newCacti);
-		cactiTimer = 0;
-		randomCactiTime = Math.random() * 2000 + 3000;
-	}
-
-	//将出画布的云朵去掉
-	for(var i = 0; i < cacti.length; i++){
-		if(!cacti[i].alive)
-			cacti.remove(i);
-	}
-
-	//绘制所有存在的云朵
-	for(var i = 0; i < cacti.length; i++){
-		cacti[i].draw();
-	}
+	dinosaur.draw();
+	collisionCheck();
 }
 
 function gameover(){

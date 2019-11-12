@@ -40,7 +40,7 @@ groundObj.prototype.draw = function (){
 			ctx.beginPath();
 			ctx.moveTo(this.stripeX[i], this.stripeY[i]);
 			ctx.lineTo(this.stripeX[i] + this.stripeL[i], this.stripeY[i]);
-			ctx.stroke();
+			// ctx.stroke();
 		}
 		ctx.restore();
 	}
